@@ -1,52 +1,34 @@
 import React, { useState } from "react";
-const data = [
-  {
-    first: "Ashish",
-    last: "Dhyani",
-    handle: "@handle",
-  },
-  {
-    first: "Ashish",
-    last: "Dhyani",
-    handle: "@handle",
-  },
-  {
-    first: "Ashish",
-    last: "Dhyani",
-    handle: "@handle",
-  },
-  {
-    first: "Ashish",
-    last: "Dhyani",
-    handle: "@handle",
-  },
-  {
-    first: "Ashish",
-    last: "Dhyani",
-    handle: "@handle",
-  },
-  {
-    first: "Ashish",
-    last: "Dhyani",
-    handle: "@handle",
-  },
-  {
-    first: "Ashish",
-    last: "Dhyani",
-    handle: "@handle",
-  },
-];
+import { useFetchData } from "../hooks/fetchData";
+
 const itemsPerPage = 3;
-const PlacesTable = () => {
+const PlacesTable = ({ inputSearch }) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = Math.ceil(data.length / itemsPerPage);
-  const currentData = data.slice(
+  const [cityCount, setCityCount] = useState(5);
+  const [isError, isLoading, tableData] = useFetchData({
+    inputSearch,
+    cityCount,
+  });
+
+  function handleCountSubmit(e) {
+    e.preventDefault();
+    const count = parseInt(e.target.cityCount.value);
+    if (count > 10) {
+      alert("Count to high");
+      return;
+    }
+    setCityCount(count);
+  }
+
+  const totalPages = Math.ceil(tableData.length / itemsPerPage);
+  const currentData = tableData.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
   const handleClick = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
+
   return (
     <>
       <table className="placesTable">
@@ -55,16 +37,30 @@ const PlacesTable = () => {
             <th>#</th>
             <th>First</th>
             <th>Last</th>
-            <th>Handle</th>
           </tr>
         </thead>
         <tbody>
+          {isLoading && (
+            <tr>
+              <td>Loading data</td>
+            </tr>
+          )}
+          {isError && (
+            <tr>
+              {" "}
+              <td>Something went wrong</td>
+            </tr>
+          )}
+          {inputSearch == "" && tableData.length === 0 ? (
+            <tr>
+              <td>Search Something</td>
+            </tr>
+          ) : null}
           {currentData.map((ele, index) => (
-            <tr className="borderBottom" key={index}>
+            <tr className="borderBottom" key={ele.id}>
               <td>{index + 1}</td>
-              <td>{ele.first}</td>
-              <td>{ele.last}</td>
-              <td>{ele.handle}</td>
+              <td>{ele.city}</td>
+              <td>{ele.country}</td>
             </tr>
           ))}
         </tbody>
@@ -81,9 +77,9 @@ const PlacesTable = () => {
             </button>
           ))}
         </div>
-        <form id="searchNo" className="searchBar">
-          <input type="number" />
-          <button type="button">Search</button>
+        <form id="searchNo" className="searchBar" onSubmit={handleCountSubmit}>
+          <input type="number" name="cityCount" defaultValue={"5"} />
+          <button>Search</button>
         </form>
       </div>
     </>
