@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useFetchData } from "../hooks/fetchData";
+import Loader from "./Loader";
 
-const itemsPerPage = 3;
 const PlacesTable = ({ inputSearch }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [cityCount, setCityCount] = useState(5);
@@ -9,12 +9,14 @@ const PlacesTable = ({ inputSearch }) => {
     inputSearch,
     cityCount,
   });
+  const countRef = useRef(null);
 
   function handleCountSubmit(e) {
     e.preventDefault();
     const count = parseInt(e.target.cityCount.value);
     if (count > 10) {
       alert("Count to high");
+      countRef.current.value = cityCount;
       return;
     }
     setCityCount(count);
@@ -42,7 +44,9 @@ const PlacesTable = ({ inputSearch }) => {
         <tbody>
           {isLoading && (
             <tr>
-              <td>Loading data</td>
+              <td>
+                <Loader></Loader>
+              </td>
             </tr>
           )}
           {isError && (
@@ -78,7 +82,12 @@ const PlacesTable = ({ inputSearch }) => {
           ))}
         </div>
         <form id="searchNo" className="searchBar" onSubmit={handleCountSubmit}>
-          <input type="number" name="cityCount" defaultValue={"5"} />
+          <input
+            type="number"
+            name="cityCount"
+            defaultValue={cityCount}
+            ref={countRef}
+          />
           <button>Search</button>
         </form>
       </div>

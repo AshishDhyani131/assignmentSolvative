@@ -11,12 +11,14 @@ export function useFetchData({ inputSearch, cityCount }) {
   const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [tableData, setTableData] = useState([]);
+
   useEffect(() => {
     if (!inputSearch) return;
     (async function getData() {
       setIsLoading(true);
+      setTableData([]);
       try {
-        const url = `https://wft-geo-db.p.rapidapi.com/v1/geo/cities?countryIds=IN&namePrefix=${inputSearch}&limit=${cityCount}`;
+        const url = `https://wft-geo-db.p.rapidapi.com/v1/geo/cities?namePrefix=${inputSearch}&limit=${cityCount}`;
 
         const response = await fetch(url, options);
         if (!response.ok) throw new Error("Something went wrong");

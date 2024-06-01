@@ -90,3 +90,27 @@ body {
 #searchNo {
   width: 254px;
 }
+.loader {
+  width: 32px;
+  height: 32px;
+  border-top-color: black;
+  border-bottom-color: black;
+  border-left-color: red;
+  border-right-color: red;
+  border-radius: 50%;
+  border-width: 2px;
+  border-style: solid;
+}
+@media screen and (max-width: 505px) {
+  #root {
+    width: 100%;
+  }
+}
+@media screen and (max-width: 366px) {
+  #searchNo {
+    width: 150px;
+  }
+  #searchNo button {
+    display: none;
+  }
+}
