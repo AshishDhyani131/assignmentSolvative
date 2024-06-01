@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import { useFetchData } from "../hooks/fetchData";
 import Loader from "./Loader";
 
+const itemsPerPage = 3;
 const PlacesTable = ({ inputSearch }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [cityCount, setCityCount] = useState(5);
@@ -55,14 +56,14 @@ const PlacesTable = ({ inputSearch }) => {
               <td>Something went wrong</td>
             </tr>
           )}
-          {inputSearch == "" && tableData.length === 0 ? (
+          {inputSearch === "" && tableData.length === 0 ? (
             <tr>
               <td>Search Something</td>
             </tr>
           ) : null}
           {currentData.map((ele, index) => (
             <tr className="borderBottom" key={ele.id}>
-              <td>{index + 1}</td>
+              <td>{index + 1 + (currentPage - 1) * itemsPerPage}</td>
               <td>{ele.city}</td>
               <td>{ele.country}</td>
             </tr>
