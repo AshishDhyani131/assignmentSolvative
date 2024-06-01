@@ -4,10 +4,10 @@ import PlacesTable from "./components/placesTable";
 
 function App() {
   return (
-    <div className="">
+    <>
       <SearchBar></SearchBar>
       <PlacesTable></PlacesTable>
-    </div>
+    </>
   );
 }
 

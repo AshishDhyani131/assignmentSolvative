@@ -13,6 +13,9 @@ body {
   color: rgb(33, 37, 41);
   font-size: 1.6rem;
 }
+#root {
+  width: 75%;
+}
 .searchBar {
   width: 241px;
   height: 38px;
@@ -44,7 +47,7 @@ body {
 .placesTable {
   border-radius: 2px;
   height: 24px;
-  width: 50%;
+  width: 100%;
   padding: 0px 4px;
   border-collapse: collapse;
 }
@@ -58,4 +61,32 @@ body {
 }
 .placesTable tr:not(:last-child) {
   border-bottom: 2px solid rgb(222, 226, 230);
+}
+
+.pagination {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.pagination button {
+  margin: 0 5px;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  cursor: pointer;
+}
+
+.pagination button.active {
+  background-color: #007bff;
+  color: white;
+  border: 1px solid #007bff;
+}
+
+.pagination button:hover:not(.active) {
+  background-color: #e2e6ea;
+  align-items: center;
+}
+#searchNo {
+  width: 254px;
 }
